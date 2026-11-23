@@ -1,0 +1,57 @@
+GESTION RESTO — VERSION LOCALE WINDOWS
+
+1. Installez Node.js LTS depuis https://nodejs.org/ (une fois).
+2. Décompressez le dossier Gestion-Resto-Local.
+3. Double-cliquez sur Lancer-Gestion-Resto.bat.
+4. Au premier démarrage, une connexion Internet est nécessaire pour télécharger les outils.
+5. Le navigateur ouvre l’application locale. Ne fermez pas la fenêtre noire pendant son utilisation.
+
+Les informations sont enregistrées dans le navigateur de cet ordinateur. Utilisez Exporter pour créer un fichier JSON de sauvegarde. Importer remplace les données courantes. Aucun compte ni mot de passe n’est requis.
+
+Pages du fork: Opérations, Ingrédients, Recettes, Simulateur carte (Laboratoire Carte), Stocks, Salariés, Associés & Gérants, Projections Financières, Comptabilité, Frais Fixes, Emprunts, Amortissements, Business Plan, Rentabilité, Marges, Paramètres.
+
+V2.0e2 — Les appels de lecture ne déclenchent plus la synchronisation locale, ce qui corrige le gel causé par la boucle de rafraîchissement. La clé et la structure de stockage restent inchangées. Les tests Node passent dans l’environnement de livraison; npm/build/typecheck n’ont pas pu être exécutés ici car le lanceur npm fourni est incomplet.
+
+Cette version n’utilise pas Internet Computer. Les données locales ne sont pas synchronisées avec l’ancien service en ligne.
+
+V2.0b5 : durées de biens stockées en mois et affichées en années ; conversion automatique des durées historiques, prorata de première et dernière année, et plan soldant exactement le coût. Le formulaire de prêt reste exprimé dans ses unités habituelles.
+
+
+Note de test V2.0b5 : les tests automatisés vérifient les échéanciers des prêts, la migration des durées de biens et les dotations de 10 000 € sur 60 mois pour une mise en service en janvier ou en juillet.
+
+
+V2.0c2 — Finalisation, paramètres sociaux et fiscaux
+Dans Paramètres juridiques, les taux d’estimation sont modifiables et réinitialisables. Les valeurs sont enregistrées localement dans le navigateur et les projections de coûts sociaux utilisent les taux dirigeants TNS/assimilé et patronaux. Les taux sociaux alimentent les coûts des salariés et dirigeants. Les projections d’impôt sur les sociétés appliquent le taux réduit jusqu’au plafond configuré, puis le taux normal. Vérifiez les données avec un expert-comptable.
+
+Dans Associés & Gérants, vous pouvez distinguer associé actif (dirigeant) et investisseur, renseigner parts et apport en capital. Le total des parts est affiché (objectif 100 %); la simulation répartit les dividendes au prorata des parts et affiche une estimation flat tax et prélèvements sociaux. Les investisseurs ne perçoivent aucune rémunération et ne supportent aucune cotisation dans les calculs: ils sont rémunérés exclusivement par dividendes. La page Associés & Gérants affiche le taux PFU actuellement configuré et une illustration du net après PFU. Les anciens associés sont conservés; les champs de capital non renseignés valent zéro. Le stockage existant est conservé. Faites une sauvegarde JSON avant migration.
+
+
+V2.0c2 : valeurs fiscales modifiables dans Paramètres juridiques. Valeurs indicatives France (2026): TNS 45% (approximation), part patronale assimilé 42%, salariale assimilé 22%, patronale salariés 42%; IS 15% dans la limite de 42 500 € si les conditions PME sont remplies, puis 25%; barème IR 0/11/30/41/45% avec tranches par part 11 600/29 579/84 577/181 917 € (revenus 2025, déclaration 2026); PFU dividendes affiché à 31,4% en vigueur au 1er janvier 2026 (12,8% impôt + 18,6% prélèvements sociaux), modifiable dans Paramètres juridiques et dépendant de la loi en vigueur. Estimations à vérifier avec un expert-comptable, notamment taux sociaux et calcul de l'IR.
+
+
+V2.0c2 — Contrôles de livraison: vérification TypeScript (tsc --noEmit), compilation de production Vite et tests automatisés. Les calculs IS des vues Business Initial, Business Plan Réel, CAF et Rentabilité Mix appliquent le taux réduit configuré dans la limite indiquée, puis le taux normal. Les estimations ne remplacent pas un calcul de paie ni un avis fiscal; le PFU et les paramètres dépendent de la loi en vigueur.
+
+V2.0d — Bilan comptable
+Un nouvel écran « Bilan comptable » est accessible dans l’espace Finance. Le bilan dynamique reprend les immobilisations et leurs amortissements, stocks enregistrés, apports en capital, ventes utilisées pour estimer le résultat et capital restant dû des emprunts. Les lignes de trésorerie, créances, réserves et dettes fournisseurs/fiscales/sociales sont signalées comme non suivies lorsqu’aucune donnée n’est disponible : elles ne doivent pas être prises pour des soldes réels. L’écart actif − passif est affiché afin d’identifier les données à compléter.
+
+Le bilan prévisionnel propose cinq années et un sélecteur de source (Business plan réel ou Rentabilité mix produits). Il reprend les hypothèses de projection, amortissements, emprunts, associés et taux IS disponibles. Les postes non modélisés sont explicitement indiqués. Ces vues sont pédagogiques et estimatives; elles ne constituent pas un bilan comptable certifié. Vérifiez les écritures et hypothèses avec un expert-comptable.
+
+
+V2.0e — Journal quotidien
+L’onglet Journal regroupe les tickets de vente (plusieurs recettes, TVA des fiches recettes, répartition des paiements et commission configurable des titres-restaurant), les factures d’achat et les pertes. Les tickets sont répercutés dans les ventes et sorties de stock; les achats d’ingrédients ajoutent du stock et actualisent le prix d’achat; les pertes d’ingrédients créent une sortie sans vente. Les données sont enregistrées dans le stockage local existant. Les achats hors stock et les valorisations de pertes sont conservés à titre de suivi; la comptabilisation complète des factures/charges et la valorisation comptable automatique des pertes ne sont pas une comptabilité certifiée. Vérifiez les écritures avec un expert-comptable.
+
+V2.0e2 — Correction du rafraîchissement local
+Les requêtes de lecture des données (Ingrédients, Recettes, etc.) ne réécrivent plus le stockage et ne déclenchent plus l’événement de synchronisation. Seules les mutations continuent d’enregistrer les données et de notifier les écrans et onglets ouverts. Cette correction supprime la boucle de rafraîchissement qui pouvait figer l’interface. La clé et la structure de stockage existantes sont conservées.
+
+V2.0e1 — Synchronisation inter-onglets et cohérence des rapports
+Les modifications enregistrées dans les données locales déclenchent le rafraîchissement des écrans ouverts et des autres onglets du navigateur. Les nouveaux tickets conservent le prix TTC/HT, la TVA et le coût matière au moment de la vente afin que les rapports ne réécrivent pas le passé si une recette change. Les ventes historiques existantes sans ces détails restent affichées depuis leurs fiches actuelles; leurs valeurs exactes d’origine ne peuvent être recréées automatiquement. Les achats d’ingrédients ne sont pas additionnés une seconde fois aux coûts des ventes dans la comptabilité simplifiée. L’historique demeure indicatif; sauvegardez régulièrement vos données et vérifiez vos écritures avec un expert-comptable.
+
+Un audit détaillé, avec statuts corrigé/non corrigé et limites, est fourni dans AUDIT-V2.0e.md. La compilation de cette archive n’a pas pu être validée dans l’environnement de livraison; le script Windows installe les dépendances puis compile au lancement.
+
+
+V2.0f1 — Simplification des écrans et frais variables
+La saisie rapide séparée des ventes est retirée : le bouton du tableau de bord ouvre le Journal quotidien, qui reste la voie de saisie des tickets. Dans Stocks, les onglets Entrées et Sorties sont supprimés; Inventaire et Réconciliation restent disponibles, et les mouvements créés depuis le Journal continuent d’alimenter le calcul de stock.
+
+La page Frais fixes comporte maintenant deux sections : Frais fixes et Frais variables. Les frais variables se règlent en pourcentage du chiffre d’affaires HT et/ou en montant par ticket. Ils sont appliqués aux projections Business plan réel, Rentabilité mix produit et au compte de résultat de Comptabilité. Le nombre de tickets est estimé à partir du CA et du ticket moyen configuré; les hypothèses nouvelles valent zéro par défaut pour préserver la rétrocompatibilité. Les paramètres sont enregistrés dans le magasin de projections existant.
+
+La clé localStorage et le mécanisme de synchronisation du backend ne sont pas modifiés; les fonctions de lecture n’émettent toujours pas d’événement. Les montants issus des hypothèses restent des estimations et ne remplacent pas une comptabilité certifiée.
